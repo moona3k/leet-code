@@ -1,57 +1,63 @@
 // Given a string, find the length of the longest substring without repeating characters.
 
-// Example 1:
+// Attemp 1
+const lengthOfLongestSubstring = str => {
 
-// Input: "abcabcbb"
-// Output: 3
-// Explanation: The answer is "abc", with the length of 3.
+    let length = 0;
+    let unique = new Set;
 
-// Example 2:
+    for (let i = 0; i < str.length; i++) {
 
-// Input: "bbbbb"
-// Output: 1
-// Explanation: The answer is "b", with the length of 1.
-
-// Example 3:
-
-// Input: "pwwkew"
-// Output: 3
-// Explanation: The answer is "wke", with the length of 3.
-// Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
-
-function longestSubstring(str) {
-
-    let arr = str.split("");
-
-    let counter = 0;
-    let longestSub = [];
-
-    for (let i=0; i < arr.length; i++){
-
-        let currentChar = arr[i];
-        let currentLongest = [];
-
-        if (!currentLongest.includes(currentChar)) {
-            currentLongest.push(currentChar);
+        if (!unique.has(str[i])) {
+            unique.add(str[i])
+            console.log(unique)
+            let a = i;
         } else {
-            longestSub = currentLongest;
-
-            for (let j=i+1; j < arr.length - 1; j++){
-                
+            if (unique.size > length) {
+                length = unique.size
+                unique.clear();
+                unique.add(str[i]);
+                a = i + 1;
             }
-
         }
-
-        
-
-
     }
 
-    // turn string into array
-    // declare a counter & longest variable; initialize to 0 and empty string
-    // loop through each character
-    // check if current char === 
-    // increment the counter by 1 & longest.concat
-    // 
+    if (unique.size > length) {
+        length = unique.size
+        unique.clear();
+    }
 
-}
+    return length
+};
+
+// iterate through str
+// selected = 
+
+lengthOfLongestSubstring("abcabcbb");
+
+
+// Attempt 2
+const lengthOfLongestSubstring = (str) => {
+
+    // Checks if given string is unique; returns boolean
+    const allUnique = str => {
+        let set = new Set;
+        for (let i = 0; i < str.length; i++) {
+            set.add(str[i])
+        }
+
+        return (set.size === str.length);
+    }
+
+    let length = 0;
+    for (let i = 0; i < str.length; i++) {
+        for (let j = i + 1; j <= str.length; j++) {
+            let subStr = str.slice(i, j);
+            if (allUnique(subStr) && subStr.length > length) {
+                length = subStr.length
+            }
+        }
+    }
+
+    return length;
+};
